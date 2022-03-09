@@ -1,28 +1,6 @@
 ## Building and deploying to a Kubernetes cluster using a TAP workload
 
-### Install VMware Tanzu SQL with Postgres for Kubernetes
-
-Starting with version 1.5.0 _VMware Tanzu SQL with Postgres for Kubernetes_ supports _Tanzu Application Platform_ (TAP) with Service Binding. For more information on Service Binding, see [Service Binding Specification for Kubernetes](https://github.com/servicebinding/spec) in the Kubernetes documentation.
-
-Install the _Tanzu Postgres Operator_ following directions in the [VMware Tanzu SQL with Postgres for Kubernetes documentation](https://docs.vmware.com/en/VMware-Tanzu-SQL-with-Postgres-for-Kubernetes/1.5/tanzu-postgres-k8s/GUID-install-operator.html).
-
-### Create a Postgres Instance
-
-> Note: Review the storage class requirements in the [Prerequisites](https://docs.vmware.com/en/VMware-Tanzu-SQL-with-Postgres-for-Kubernetes/1.5/tanzu-postgres-k8s/GUID-create-delete-postgres.html#prerequisites) section. 
-
-Apply the `database/postgres-instance.yaml` manifest using `kubectl`:
-
-```
-kubectl apply -f database/postgres-instance.yaml
-```
-
-### Create RBAC role for service-binding support
-
-The service-binding support needs to be able to access the Postgres instances so we create an RBAC Role and RoleBinding using `kubectl` to apply the `database\postgres-service-binding-rbac.yaml` file:
-
-```
-kubectl apply -f database/postgres-service-binding-rbac.yaml
-```
+> NOTE: This workload is currently deploy using an embedded database. It will be enhanced in the future to use a PostgreSQL database using the service-binding support.
 
 ### Deploying to Kubernetes as a TAP workload with Tanzu CLI
 

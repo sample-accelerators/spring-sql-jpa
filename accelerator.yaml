@@ -1,6 +1,6 @@
 accelerator:
   displayName: Spring Boot SQL JPA
-  description: Spring Boot application that accesses an SQL database using JPA. Option to include service binding to PosgreSQL database.
+  description: Spring Boot application that accesses an SQL database using JPA.
   iconUrl: https://raw.githubusercontent.com/sample-accelerators/icons/master/icon-data.png
   tags:
     - java
@@ -20,44 +20,17 @@ accelerator:
       text: Skip Kubernetes deployment
     defaultValue: workload
     required: true
-  - name: postgresInstanceName
-    inputType: text
-    label: The name of the Postgres instance
-    description: The name of the Postgres instance to create using the Tanzu Postgres Operator
-    defaultValue: postgres-sample
-    dependsOn:
-      name: deploymentType
-      value: workload
-  - name: storageClassName
-    inputType: text
-    label: The name of the storage class to use for the Postgres instance
-    description: The name of the storage class to use for Postgres instance to create using the Tanzu Postgres Operator
-    defaultValue: standard
-    dependsOn:
-      name: deploymentType
-      value: workload
 
 engine:
   merge:
     - include: [ "**" ]
-      exclude: [ "pom.xml", "database/**", "config/**", "catalog/**", "README.md", "DEPLOYING.md" ]
+      exclude: [ "pom.xml", "config/**", "catalog/**", "README.md", "DEPLOYING.md" ]
     - include: [ "pom.xml" ]
       chain:
       - type: ReplaceText
         substitutions:
         - text: spring-sql-jpa
           with: "#artifactId"
-    - include: [ "database/**" ]
-      condition: "#deploymentType == 'workload'"
-      chain:
-      - type: ReplaceText
-        substitutions:
-        - text: postgres-sample
-          with: "#postgresInstanceName"
-      - type: ReplaceText
-        substitutions:
-          - text: standard
-            with: "#storageClassName"
     - include: [ "catalog/**" ]
       condition: "#deploymentType == 'workload'"
       chain:
